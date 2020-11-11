@@ -1,0 +1,8 @@
+{
+  "DatabaseHost": "localhost",
+  "DatabasePort": 5432,
+  "DatabaseUser": "postgres",
+  "DatabasePassword": "admin123",
+  "DatabaseName": "transaction-manager-db",
+  "HttpServerPort": "9000"
+}

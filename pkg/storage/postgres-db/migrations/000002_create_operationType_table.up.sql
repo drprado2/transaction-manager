@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS operationTypes(
+    id SERIAL PRIMARY KEY,
+    description VARCHAR NOT NULL UNIQUE,
+    is_debit BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

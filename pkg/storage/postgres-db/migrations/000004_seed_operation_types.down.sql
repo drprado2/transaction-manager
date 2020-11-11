@@ -1,0 +1,1 @@
+DELETE FROM operationtypes WHERE description IN (''COMPRA A VISTA'', ''COMPRA PARCELADA'', ''SAQUE'', ''PAGAMENTO'')
