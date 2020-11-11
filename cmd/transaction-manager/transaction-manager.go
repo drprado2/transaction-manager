@@ -6,10 +6,10 @@ import (
 	"github.com/drprado2/transaction-manager/configs"
 	_ "github.com/drprado2/transaction-manager/docs"
 	dependencyInjection "github.com/drprado2/transaction-manager/pkg/dependency-injection"
+	postgres_db "github.com/drprado2/transaction-manager/pkg/storage/postgres-db"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/github"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
@@ -45,21 +45,11 @@ func main() {
 
 	appServiceProvider := &dependencyInjection.AppServiceProvider{}
 
-	migrateDb(configuration)
+	postgres_db.MigrateDb(configuration)
 
 	routes.ConfigureRoutes(router, appServiceProvider)
 
 	if error := router.Run(":" + configuration.HttpServerPort); error != nil {
 		panic(error.Error())
 	}
-}
-
-func migrateDb(config *configs.Configuration) {
-	connString := fmt.Sprintf("postgres://%s:%s@%s:%v/%s?sslmode=disable",
-		config.DatabaseUser, config.DatabasePassword, config.DatabaseHost, config.DatabasePort, config.DatabaseName)
-	m, err := migrate.New("github.com/drprado2/transaction-manager/storage/postgres-db/migrations", connString)
-	if err != nil {
-		panic(err)
-	}
-	m.Steps(2)
 }
